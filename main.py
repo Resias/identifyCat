@@ -87,8 +87,8 @@ test_images = np.array(test_images)
 #print(train_images.dtype)
 #print(train_images.shape)
 
-train_images[3] = train_images[3]/255.0
-test_images[3] = test_images[3]/255.0
+train_images[:][:][3] = train_images[:][:][3]/255.0
+test_images[:][:][3] = test_images[:][:][3]/255.0
 train_scaled = train_images
 test_scaled = test_images
 train_scaled, val_scaled, train_target, val_target = train_test_split(train_scaled, train_labels, test_size=0.2)
