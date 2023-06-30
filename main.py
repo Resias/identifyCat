@@ -2,6 +2,7 @@ import tensorflow as tf
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.utils import shuffle
 from PIL import Image
 import os
 import shutil
@@ -48,7 +49,8 @@ import matplotlib.pyplot as plt
 
 # train-test 데이터 분할
 images = np.array(images)
-np.random.shuffle(images)
+images, labels = shuffle(images, labels)
+
 scaler = MinMaxScaler()
 train_images, test_images, train_labels, test_labels = train_test_split(
     images, labels, test_size=0.2)
