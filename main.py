@@ -49,7 +49,7 @@ import matplotlib.pyplot as plt
 
 # train-test 데이터 분할
 images = np.array(images)
-images, labels = shuffle(images, labels)
+#images, labels = shuffle(images, labels)
 
 scaler = MinMaxScaler()
 train_images, test_images, train_labels, test_labels = train_test_split(
