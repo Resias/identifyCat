@@ -10,7 +10,7 @@ import cv2
 
 # cat image
 image_directory = './photos/cat and dog/training_set/training_set/cats'
-image_size = (500,500)
+image_size = (250,250)
 
 images = []
 labels = []
@@ -28,7 +28,7 @@ for filename in os.listdir(image_directory):
 # dog image
 
 image_directory = './photos/cat and dog/training_set/training_set/dogs'
-image_size = (500,500)
+image_size = (250,250)
 
 
 # 이미지 데이터 불러오기
@@ -69,11 +69,10 @@ val_target = np.array(val_target, dtype=np.float32)
 
 #model 구축
 model = tf.keras.Sequential()
-model.add(tf.keras.layers.Conv2D(32,kernel_size=2,padding='same',activation='relu', input_shape=(500,500,3)))
+model.add(tf.keras.layers.Conv2D(16,kernel_size=4,padding='same',activation='relu', input_shape=(250,250,3)))
 model.add(tf.keras.layers.MaxPool2D(2))
-model.add(tf.keras.layers.Conv2D(16,kernel_size=2,padding='same',activation='relu'))
+model.add(tf.keras.layers.Conv2D(32,kernel_size=2,padding='same',activation='relu'))
 model.add(tf.keras.layers.MaxPool2D(2))
-model.add(tf.keras.layers.Dropout(0.5))
 model.add(tf.keras.layers.Flatten())
 model.add(tf.keras.layers.Dense(4,activation='relu'))
 model.add(tf.keras.layers.Dropout(0.3))
@@ -84,7 +83,7 @@ model.summary()
 from tensorflow.python.framework.ops import executing_eagerly_outside_functions
 model.compile(optimizer='adam',loss='binary_crossentropy',metrics='accuracy')
 checkpoint_cb = tf.keras.callbacks.ModelCheckpoint('best-CatCNN-model.h5')
-early_stopping_cb = tf.keras.callbacks.EarlyStopping(patience=2,restore_best_weights=True)
+early_stopping_cb = tf.keras.callbacks.EarlyStopping(patience=4,restore_best_weights=True)
 history = model.fit(train_scaled, train_target, epochs=100,
                     validation_data=(val_scaled,val_target),
                     callbacks=[checkpoint_cb,early_stopping_cb])
