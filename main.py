@@ -56,7 +56,7 @@ for filename in os.listdir(image_directory):
 
 
 
-# dog train image
+# dog test image
 
 image_directory = './photos/cat and dog/test_set/test_set/dogs'
 image_size = (250,250)
@@ -69,10 +69,6 @@ for filename in os.listdir(image_directory):
         img = cv2.resize(img, image_size)
         test_images.append(img)
         test_labels.append(0)
-
-
-#print(images[0][2])
-#print(images[0].shape)
 
 import matplotlib.pyplot as plt
 #plt.imshow(images[0])
@@ -87,8 +83,8 @@ test_images = np.array(test_images)
 #print(train_images.dtype)
 #print(train_images.shape)
 
-train_images[:][:][3] = train_images[:][:][3]/255.0
-test_images[:][:][3] = test_images[:][:][3]/255.0
+train_images[:][:][:] = train_images[:][:][:]/255.0
+test_images[:][:][:] = test_images[:][:][:]/255.0
 train_scaled = train_images
 test_scaled = test_images
 train_scaled, val_scaled, train_target, val_target = train_test_split(train_scaled, train_labels, test_size=0.2)
