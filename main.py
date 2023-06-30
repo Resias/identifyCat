@@ -93,6 +93,8 @@ train_scaled = np.array(train_scaled)
 train_target = np.array(train_target, dtype=np.float32)
 val_scaled = np.array(val_scaled)
 val_target = np.array(val_target, dtype=np.float32)
+test_scaled = np.array(train_scaled)
+test_target = np.array(train_target, dtype=np.float32)
 
 #model 구축
 model = tf.keras.Sequential()
