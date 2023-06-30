@@ -42,8 +42,8 @@ for filename in os.listdir(image_directory):
 #print(images[0].shape)
 
 import matplotlib.pyplot as plt
-plt.imshow(images[0])
-plt.imshow(images[-3])
+#plt.imshow(images[0])
+#plt.imshow(images[-3])
 
 
 # train-test 데이터 분할
