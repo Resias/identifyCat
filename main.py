@@ -8,24 +8,24 @@ import os
 import shutil
 import cv2
 
-# cat image
+# cat trian image
 image_directory = './photos/cat and dog/training_set/training_set/cats'
 image_size = (250,250)
 
-images = []
-labels = []
+train_images = []
+train_labels = []
 
 # 이미지 데이터 불러오기
 for filename in os.listdir(image_directory):
     if filename.endswith('.jpg'):
         img = cv2.imread(os.path.join(image_directory, filename))
         img = cv2.resize(img, image_size)
-        images.append(img)
-        labels.append(1)
+        train_images.append(img)
+        train_labels.append(1)
 
 
 
-# dog image
+# dog train image
 
 image_directory = './photos/cat and dog/training_set/training_set/dogs'
 image_size = (250,250)
@@ -36,8 +36,40 @@ for filename in os.listdir(image_directory):
     if filename.endswith('.jpg'):
         img = cv2.imread(os.path.join(image_directory, filename))
         img = cv2.resize(img, image_size)
-        images.append(img)
-        labels.append(0)
+        train_images.append(img)
+        train_labels.append(0)
+
+# cat test image
+image_directory = './photos/cat and dog/test_set/test_set/cats'
+image_size = (250,250)
+
+test_images = []
+test_labels = []
+
+# 이미지 데이터 불러오기
+for filename in os.listdir(image_directory):
+    if filename.endswith('.jpg'):
+        img = cv2.imread(os.path.join(image_directory, filename))
+        img = cv2.resize(img, image_size)
+        test_images.append(img)
+        test_labels.append(1)
+
+
+
+# dog train image
+
+image_directory = './photos/cat and dog/test_set/test_set/dogs'
+image_size = (250,250)
+
+
+# 이미지 데이터 불러오기
+for filename in os.listdir(image_directory):
+    if filename.endswith('.jpg'):
+        img = cv2.imread(os.path.join(image_directory, filename))
+        img = cv2.resize(img, image_size)
+        test_images.append(img)
+        test_labels.append(0)
+
 
 #print(images[0][2])
 #print(images[0].shape)
@@ -47,19 +79,18 @@ import matplotlib.pyplot as plt
 #plt.imshow(images[-3])
 
 
-# train-test 데이터 분할
-images = np.array(images)
+# train-test data preprocessing
+train_images = np.array(train_images)
+test_images = np.array(test_images)
 #images, labels = shuffle(images, labels)
-
-scaler = MinMaxScaler()
-train_images, test_images, train_labels, test_labels = train_test_split(
-    images, labels, test_size=0.2)
 
 #print(train_images.dtype)
 #print(train_images.shape)
 
 train_images[3] = train_images[3]/255.0
+test_images[3] = test_images[3]/255.0
 train_scaled = train_images
+test_scaled = test_images
 train_scaled, val_scaled, train_target, val_target = train_test_split(train_scaled, train_labels, test_size=0.2)
 
 train_scaled = np.array(train_scaled)
@@ -74,8 +105,7 @@ model.add(tf.keras.layers.MaxPool2D(2))
 model.add(tf.keras.layers.Conv2D(32,kernel_size=2,padding='same',activation='relu'))
 model.add(tf.keras.layers.MaxPool2D(2))
 model.add(tf.keras.layers.Flatten())
-model.add(tf.keras.layers.Dense(4,activation='relu'))
-model.add(tf.keras.layers.Dropout(0.3))
+model.add(tf.keras.layers.Dense(16,activation='relu'))
 model.add(tf.keras.layers.Dense(1,activation='sigmoid'))
 
 model.summary()
@@ -96,4 +126,4 @@ plt.legend(['train','val'])
 plt.show()
 
 model = tf.keras.models.load_model('best-CatCNN-model.h5')
-model.evaluate(val_scaled,val_target)
+model.evaluate(test_scaled,test_target)
